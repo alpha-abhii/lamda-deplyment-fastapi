@@ -31,7 +31,7 @@ jobs:
     # 4. Install Serverless & Plugins
     - name: Install dependencies
       run: |
-        npm install -g serverless
+        npm install -g serverless@3
         npm ci
         pip install -r requirements.txt
 
