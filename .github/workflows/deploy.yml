@@ -1,0 +1,43 @@
+name: Deploy FastAPI to Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Get the code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Install Node (for Serverless Framework)
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+
+    # 3. Install Python (for your app)
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    # 4. Install Serverless & Plugins
+    - name: Install dependencies
+      run: |
+        npm install -g serverless
+        npm ci
+        pip install -r requirements.txt
+
+    # 5. Deploy
+    - name: Serverless Deploy
+      run: serverless deploy --verbose
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
