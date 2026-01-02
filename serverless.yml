@@ -21,6 +21,6 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: true
-    layer: true
-    slim: true
-    strip: false
+    # layer: true
+    # slim: true
+    # strip: false
